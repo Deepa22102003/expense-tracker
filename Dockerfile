@@ -1,12 +1,11 @@
-# Build stage
-FROM maven:3.8-openjdk-17 as builder
-WORKDIR /app
-COPY . .
-RUN mvn clean install -DskipTests
+FROM maven:3.8-openjdk-17-slim
 
-# Runtime stage
-FROM openjdk:17-jdk-slim
 WORKDIR /app
-COPY --from=builder /app/backend/target/expense-tracker-1.0.0.jar app.jar
+
+COPY . .
+
+RUN cd backend && mvn clean install -DskipTests && cd ..
+
 EXPOSE 8080
-CMD ["java", "-jar", "app.jar"]
+
+CMD ["java", "-jar", "backend/target/expense-tracker-1.0.0.jar"]
