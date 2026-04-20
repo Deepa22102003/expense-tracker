@@ -1,11 +1,9 @@
 services:
   - type: web
     name: expense-tracker-api
-    env: java
+    dockerfilePath: Dockerfile
     plan: free
-    buildCommand: cd backend && mvn clean install -DskipTests
-    startCommand: java -jar backend/target/expense-tracker-1.0.0.jar
     healthCheckPath: /api/groups
     envVars:
-      - key: JAVA_VERSION
-        value: "17"
+      - key: PORT
+        value: "8080"
